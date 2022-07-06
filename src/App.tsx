@@ -50,13 +50,13 @@ const App: FC = () => {
         <>
             <header className='className= bg-stone-200 p-4'>
                 <h2 className='font-bold text-3xl'>Spacegram</h2>
-                <p className='text-stone-600 '>Brought to you by NASA's image API</p>
+                <p className='text-stone-600 text-lg'>Brought to you by NASA's image API</p>
             </header>
             {!images ? (
                 isLoading ? (
                     <Loader />
                 ) : (
-                    <h2 className='flex items-center justify-center h-[calc(100vh-6rem)]'>
+                    <h2 className='flex items-center justify-center h-[calc(100vh-6rem)] bg-stone-200'>
                         Something went wrong ( no images to show)
                     </h2>
                 )
@@ -89,7 +89,7 @@ interface props {
 }
 
 const ImageCard: FC<props> = ({ image }) => (
-    <li className='rounded-md overflow-hidden bg-white hover:scale-[1.01] transition-transform'>
+    <li className='rounded-md overflow-hidden bg-white hover:scale-[1.03] transition-transform duration-500 drop-shadow-lg'>
         <img src={image.url} className='w-full max-h-screen' alt={image.title} loading='lazy' />
         <div className='p-4'>
             <h2 className='font-bold text-lg my-2'>{image.title}</h2>
@@ -109,7 +109,7 @@ const ImageCard: FC<props> = ({ image }) => (
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         style={{ fill: 'transparent' }}
-                        className='h-8 aspect-square hover:scale-125'
+                        className='h-8 aspect-square hover:scale-125 active:scale-[2] transition-transform duration-200'
                         viewBox='0 0 24 24'
                         stroke='currentColor'
                         strokeWidth={2}>
@@ -122,6 +122,7 @@ const ImageCard: FC<props> = ({ image }) => (
                 </button>
                 <button
                     data-message='This is from the share button'
+                    className='group relative'
                     onClick={e => {
                         const link = e.currentTarget.querySelector('input')?.value
                         navigator.clipboard.writeText(link || '')
@@ -129,7 +130,7 @@ const ImageCard: FC<props> = ({ image }) => (
                     <input type='hidden' value={image.url} />
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
-                        className='h-8 w-8 hover:scale-125'
+                        className='h-8 w-8 hover:scale-125 active:scale-[2] transition-transform duration-200'
                         fill='none'
                         viewBox='0 0 24 24'
                         stroke='currentColor'
@@ -140,6 +141,9 @@ const ImageCard: FC<props> = ({ image }) => (
                             d='M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z'
                         />
                     </svg>
+                    <p className='hidden absolute -top-6 -left-2 w-max group-hover:block text-xs bg-stone-300 bg-opacity-50 rounded-md px-1 py-0.5'>
+                        Copy Link!
+                    </p>
                 </button>
             </div>
         </div>
@@ -148,7 +152,7 @@ const ImageCard: FC<props> = ({ image }) => (
 
 const Loader: FC = () => {
     return (
-        <main className='flex items-center justify-center h-[calc(100vh-6rem)]'>
+        <main className='flex items-center justify-center h-[calc(100vh-6rem)] bg-stone-200'>
             <div className=' animate-spin aspect-square h-24 border-8 border-t-stone-700 rounded-full'></div>
         </main>
     )
