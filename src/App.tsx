@@ -7,7 +7,6 @@ interface ImageData {
     date: Date
     url: string
     title: string
-    collection: string
     description: string
 }
 
@@ -27,12 +26,11 @@ const App: FC = () => {
                     if (json?.collection?.items) {
                         const imagesData = json.collection.items.map((item: any): ImageData => {
                             const image: ImageData = {
-                                id: item.data[0].nasa_id,
-                                title: item.data[0].title,
-                                url: item.links[0].href,
-                                date: new Date(item.data[0].date_created),
-                                collection: item.href,
-                                description: item.data[0].description,
+                                id: item?.data[0]?.nasa_id,
+                                title: item?.data[0]?.title,
+                                url: item?.links[0]?.href,
+                                date: new Date(item?.data[0]?.date_created),
+                                description: item?.data[0]?.description,
                             }
                             return image
                         })
@@ -45,7 +43,7 @@ const App: FC = () => {
                     setIsLoading(false)
                 })
         }
-    })
+    }, [])
     return (
         <>
             <header className='bg-stone-200 p-4 flex justify-between'>
@@ -83,15 +81,15 @@ const App: FC = () => {
                     </h2>
                 )
             ) : (
-                <main className=' bg-stone-200 flex gap-4 p-4 pt-0 flex-col md:flex-row md:gap-8'>
-                    <section className='flex-1'>
+                <main className=' bg-stone-200 flex gap-4 p-4 pt-0 flex-col md:flex-row md:gap-8 w-screen'>
+                    <section className='md:w-[calc(50%-1rem)] w-full'>
                         <ul className='flex flex-col gap-4'>
                             {images.slice(0, images.length / 2).map(image => (
                                 <ImageCard key={image.id} image={image} />
                             ))}
                         </ul>
                     </section>
-                    <section className='flex-1'>
+                    <section className='md:w-[calc(50%-1rem)] w-full'>
                         <ul className='flex flex-col gap-4'>
                             {images.slice(images.length / 2, images.length).map(image => (
                                 <ImageCard key={image.id} image={image} />
@@ -163,7 +161,7 @@ const ImageCard: FC<props> = ({ image }) => (
                             d='M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z'
                         />
                     </svg>
-                    <p className='hidden absolute -top-6 -left-2 w-max group-hover:block text-xs bg-stone-300 bg-opacity-50 rounded-md px-1 py-0.5'>
+                    <p className='hidden absolute -top-6 -left-4 w-max group-hover:block text-xs bg-stone-300 bg-opacity-50 rounded-md px-1 py-0.5'>
                         Copy Link!
                     </p>
                 </button>
