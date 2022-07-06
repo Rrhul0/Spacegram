@@ -90,7 +90,7 @@ interface props {
 
 const ImageCard: FC<props> = ({ image }) => (
     <li className='rounded-md overflow-hidden bg-white hover:scale-[1.01] transition-transform'>
-        <img src={image.url} className='w-full' alt={image.title} loading='lazy' />
+        <img src={image.url} className='w-full max-h-screen' alt={image.title} loading='lazy' />
         <div className='p-4'>
             <h2 className='font-bold text-lg my-2'>{image.title}</h2>
             <p className='mb-1'>{image.date.toLocaleDateString('en-CA')}</p>
