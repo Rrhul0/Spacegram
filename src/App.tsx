@@ -14,7 +14,7 @@ interface ImageData {
 const App: FC = () => {
     const [images, setImages] = useState<ImageData[] | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    useEffect(() => {
+    useEffect((): void => {
         if (!images) {
             setIsLoading(true)
             fetch(API_NASA_IMAGE + '/asset/?orderby=popular')
@@ -48,20 +48,42 @@ const App: FC = () => {
     })
     return (
         <>
-            <header className='className= bg-stone-200 p-4'>
-                <h2 className='font-bold text-3xl'>Spacegram</h2>
-                <p className='text-stone-600 text-lg'>Brought to you by NASA's image API</p>
+            <header className='bg-stone-200 p-4 flex justify-between'>
+                <div>
+                    <h1 className='font-bold text-3xl'>Spacegram</h1>
+                    <p className='text-stone-600 text-lg'>Brought to you by NASA's image API</p>
+                </div>
+                <a
+                    target='_blank'
+                    href='https://github.com/Rrhul0/Spacegram'
+                    className='flex gap-1 items-center hover:text-purple-500 text-lg'>
+                    GitHub
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        aria-hidden='true'
+                        className='text-stone-500'
+                        viewBox='0 0 100 100'
+                        width='15'
+                        height='15'>
+                        <path
+                            fill='currentColor'
+                            d='M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z'></path>
+                        <polygon
+                            fill='currentColor'
+                            points='45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9'></polygon>
+                    </svg>
+                </a>
             </header>
             {!images ? (
                 isLoading ? (
                     <Loader />
                 ) : (
-                    <h2 className='flex items-center justify-center h-[calc(100vh-6rem)] bg-stone-200'>
+                    <h2 className='flex items-center justify-center h-[calc(100vh-6rem)] bg-stone-200 pb-12'>
                         Something went wrong ( no images to show)
                     </h2>
                 )
             ) : (
-                <main className=' bg-stone-200 flex gap-4 p-4 flex-col md:flex-row md:gap-8'>
+                <main className=' bg-stone-200 flex gap-4 p-4 pt-0 flex-col md:flex-row md:gap-8'>
                     <section className='flex-1'>
                         <ul className='flex flex-col gap-4'>
                             {images.slice(0, images.length / 2).map(image => (
@@ -153,7 +175,7 @@ const ImageCard: FC<props> = ({ image }) => (
 const Loader: FC = () => {
     return (
         <main className='flex items-center justify-center h-[calc(100vh-6rem)] bg-stone-200'>
-            <div className=' animate-spin aspect-square h-24 border-8 border-t-stone-700 rounded-full'></div>
+            <div className=' animate-spin aspect-square h-24 border-8 border-t-stone-700 rounded-full mb-12'></div>
         </main>
     )
 }
