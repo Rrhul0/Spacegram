@@ -12,9 +12,11 @@ interface ImageData {
 }
 
 const App: FC = () => {
-    const [images, setImages] = useState<Array<ImageData> | null>(null)
+    const [images, setImages] = useState<ImageData[] | null>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     useEffect(() => {
         if (!images) {
+            setIsLoading(true)
             fetch(API_NASA_IMAGE + '/asset/?orderby=popular')
                 .then((res: Response): any => {
                     if (res.status === 200) {
@@ -36,32 +38,46 @@ const App: FC = () => {
                         })
                         setImages(imagesData)
                     }
+                    setIsLoading(false)
+                })
+                .catch(e => {
+                    console.log(e)
+                    setIsLoading(false)
                 })
         }
     })
-    if (!images) return <></>
     return (
         <>
             <header className='className= bg-stone-200 p-4'>
-                <h1 className='font-bold text-3xl'>Spacegram</h1>
+                <h2 className='font-bold text-3xl'>Spacegram</h2>
                 <p className='text-stone-600 '>Brought to you by NASA's image API</p>
             </header>
-            <main className=' bg-stone-200 flex gap-4 p-4 flex-col md:flex-row md:gap-8'>
-                <section className='flex-1'>
-                    <ul className='flex flex-col gap-4'>
-                        {images.slice(0, images.length / 2).map(image => (
-                            <ImageCard image={image} />
-                        ))}
-                    </ul>
-                </section>
-                <section className='flex-1'>
-                    <ul className='flex flex-col gap-4'>
-                        {images.slice(images.length / 2, images.length).map(image => (
-                            <ImageCard key={image.id} image={image} />
-                        ))}
-                    </ul>
-                </section>
-            </main>
+            {!images ? (
+                isLoading ? (
+                    <Loader />
+                ) : (
+                    <h2 className='flex items-center justify-center h-[calc(100vh-6rem)]'>
+                        Something went wrong ( no images to show)
+                    </h2>
+                )
+            ) : (
+                <main className=' bg-stone-200 flex gap-4 p-4 flex-col md:flex-row md:gap-8'>
+                    <section className='flex-1'>
+                        <ul className='flex flex-col gap-4'>
+                            {images.slice(0, images.length / 2).map(image => (
+                                <ImageCard key={image.id} image={image} />
+                            ))}
+                        </ul>
+                    </section>
+                    <section className='flex-1'>
+                        <ul className='flex flex-col gap-4'>
+                            {images.slice(images.length / 2, images.length).map(image => (
+                                <ImageCard key={image.id} image={image} />
+                            ))}
+                        </ul>
+                    </section>
+                </main>
+            )}
         </>
     )
 }
@@ -74,7 +90,7 @@ interface props {
 
 const ImageCard: FC<props> = ({ image }) => (
     <li className='rounded-md overflow-hidden bg-white hover:scale-[1.01] transition-transform'>
-        <img src={image.url} className='w-full' />
+        <img src={image.url} className='w-full' alt={image.title} loading='lazy' />
         <div className='p-4'>
             <h2 className='font-bold text-lg my-2'>{image.title}</h2>
             <p className='mb-1'>{image.date.toLocaleDateString('en-CA')}</p>
@@ -88,7 +104,8 @@ const ImageCard: FC<props> = ({ image }) => (
                             if (svg.style.fill === 'transparent') svg.style.fill = 'currentColor'
                             else svg.style.fill = 'transparent'
                         }
-                    }}>
+                    }}
+                    data-message='This is from the like button'>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         style={{ fill: 'transparent' }}
@@ -104,6 +121,7 @@ const ImageCard: FC<props> = ({ image }) => (
                     </svg>
                 </button>
                 <button
+                    data-message='This is from the share button'
                     onClick={e => {
                         const link = e.currentTarget.querySelector('input')?.value
                         navigator.clipboard.writeText(link || '')
@@ -127,3 +145,11 @@ const ImageCard: FC<props> = ({ image }) => (
         </div>
     </li>
 )
+
+const Loader: FC = () => {
+    return (
+        <main className='flex items-center justify-center h-[calc(100vh-6rem)]'>
+            <div className=' animate-spin aspect-square h-24 border-8 border-t-stone-700 rounded-full'></div>
+        </main>
+    )
+}
