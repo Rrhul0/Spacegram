@@ -1,39 +1,21 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { ImageData } from './App'
+import { useLike } from './lib/hooks'
 
 const ImageCard: FC<props> = ({ image }) => {
-    const [liked, setLiked] = useState(false)
     const likeSvgRef = useRef<SVGSVGElement>(null)
-
-    useEffect(() => {
-        if (!likeSvgRef.current) return
-        const value = localStorage.getItem(image.id)
-        if (value === '1') {
-            setLiked(true)
-            likeSvgRef.current.style.fill = 'currentColor'
-        }
-    }, [])
-
-    function onClickLike(e: React.MouseEvent<HTMLButtonElement>) {
-        if (!likeSvgRef.current) return
-        if (!liked) {
-            likeSvgRef.current.style.fill = 'currentColor'
-            setLiked(true)
-            localStorage.setItem(image.id, '1')
-        } else {
-            likeSvgRef.current.style.fill = 'transparent'
-            setLiked(false)
-            localStorage.removeItem(image.id)
-        }
-    }
+    const [onClickLike] = useLike(image, likeSvgRef)
     return (
         <article className='rounded-md overflow-hidden bg-white drop-shadow-lg'>
-            <img src={image.url} className='w-full max-h-screen' alt={image.title} loading='lazy' />
+            <Link to={'/image/' + image.id} state={image}>
+                <img src={image.url} className='w-full max-h-screen' alt={image.title} loading='lazy' />
+            </Link>
             <div className='p-4 border border-stone-300 overflow-hidden'>
                 <h2 className='font-bold text-lg my-2'>{image.title}</h2>
                 <p className='mb-1'>{image.date.toLocaleDateString('en-CA')}</p>
                 <p className='max-h-[4rem] overflow-hidden text-sm'>{image.description}</p>
-                <div className='flex justify-between mx-4 my-2 '>
+                <div className='flex justify-between my-2 '>
                     <button className='text-red-500' onClick={onClickLike} data-message='This is from the like button'>
                         <svg
                             ref={likeSvgRef}

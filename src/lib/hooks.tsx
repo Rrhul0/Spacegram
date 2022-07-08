@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { RefObject, useEffect, useRef, useState } from 'react'
 import { loading } from '../Loader'
 import { ImageData, time } from '../App'
 
@@ -53,4 +53,32 @@ export function useFetchNASA(query: string, time: time | null): [ImageData[], lo
     }, [query, time])
 
     return [images, isLoading]
+}
+
+export function useLike(image: ImageData, likeSvgRef: RefObject<SVGSVGElement>): [VoidFunction] {
+    const [liked, setLiked] = useState(false)
+    // const likeSvgRef = useRef<SVGSVGElement>(likeRef)
+
+    useEffect(() => {
+        if (!likeSvgRef.current) return
+        const value = localStorage.getItem(image.id)
+        if (value === '1') {
+            setLiked(true)
+            likeSvgRef.current.style.fill = 'currentColor'
+        }
+    }, [])
+
+    function onClickLike() {
+        if (!likeSvgRef.current) return
+        if (!liked) {
+            likeSvgRef.current.style.fill = 'currentColor'
+            setLiked(true)
+            localStorage.setItem(image.id, '1')
+        } else {
+            likeSvgRef.current.style.fill = 'transparent'
+            setLiked(false)
+            localStorage.removeItem(image.id)
+        }
+    }
+    return [onClickLike]
 }
