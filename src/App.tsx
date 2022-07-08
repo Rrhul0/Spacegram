@@ -21,17 +21,17 @@ const App: FC = () => {
     return (
         <>
             <Header />
-            <main className=' bg-stone-200 flex gap-4 p-4 pt-0 flex-col md:flex-row md:gap-8 w-screen'>
+            <main className=' flex gap-4 pt-6 flex-col md:flex-row md:gap-8 w-screen px-56 '>
                 <section className='flex-1'>
                     <Loader loading={loading}>
-                        <ul className='flex flex-col gap-4'>
+                        <ul className='flex flex-col gap-8'>
                             {finalImages.map(image => (
                                 <ImageCard key={image.id} image={image} />
                             ))}
                         </ul>
                     </Loader>
                 </section>
-                <section className='basis-1/4 px-10 pt-5'>
+                <section className='basis-[30%]'>
                     <SearchFilterSidebar setQuery={setQuery} setTime={setTime} sort={sort} setSort={setSort} />
                 </section>
             </main>

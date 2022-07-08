@@ -10,26 +10,28 @@ const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery, setTime, sort, s
         setInput(e.target.value)
     }
 
-    function onQuerySubmit(e: React.FormEvent<HTMLFormElement>) {
+    function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        if (!input && !startTime && !endTime) return
         setQuery(input)
-        setSort('popular')
-    }
-
-    function onDateSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
         setTime({
             start: new Date(startTime).getFullYear(),
             end: new Date(endTime).getFullYear(),
         })
-        setSort('latest')
+        setSort('popular')
     }
 
     return (
-        <div>
-            <form className='relative' onSubmit={onQuerySubmit}>
-                <input className='p-2 rounded-md w-full' type='text' value={input} onChange={onChangeInput} />
-                <button className='absolute top-0 right-0 bg-stone-200 hover:bg-stone-300 py-1 px-3 m-1 rounded-lg'>
+        <div className='sticky top-24'>
+            <form className='relative placeholder:text-lg' onSubmit={onSubmit}>
+                <input
+                    className='p-2 pl-3 rounded-md w-full border border-stone-300 mb-4'
+                    type='text'
+                    value={input}
+                    onChange={onChangeInput}
+                    placeholder='Search'
+                />
+                <button className='absolute top-0 right-0 bg-stone-200 hover:bg-stone-300 py-1 px-3 m-1 rounded-md'>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         className='h-6 w-6'
@@ -44,23 +46,10 @@ const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery, setTime, sort, s
                         />
                     </svg>
                 </button>
-            </form>
-            <p>Order By</p>
-            <div>
-                <button
-                    className={sort === 'popular' || !sort ? 'bg-stone-500' : ''}
-                    onClick={() => setSort('popular')}>
-                    Popular
-                </button>
-                <button className={sort === 'latest' ? 'bg-stone-500' : ''} onClick={() => setSort('latest')}>
-                    Latest
-                </button>
-            </div>
-            <form onSubmit={onDateSubmit}>
-                <p>Filter by Date</p>
-                <label>
-                    Start Date
+                <label className='flex justify-between items-center my-1'>
+                    Start Date:
                     <input
+                        className='text-2xl border rounded-md border-stone-300'
                         type={'date'}
                         name='start_date'
                         value={startTime}
@@ -68,9 +57,10 @@ const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery, setTime, sort, s
                         max='2022-12-31'
                     />
                 </label>
-                <label>
-                    End Date
+                <label className='flex justify-between items-center'>
+                    End Date:
                     <input
+                        className='text-2xl border rounded-md border-stone-300'
                         type={'date'}
                         name='end_date'
                         value={endTime}
@@ -79,8 +69,29 @@ const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery, setTime, sort, s
                         max='2022-12-31'
                     />
                 </label>
-                <button>filter</button>
+                <button className='border border-stone-300 py-2 px-4 rounded-md mt-2 mb-4 ml-10 bg-stone-200 hover:bg-stone-300'>
+                    Filter Date
+                </button>
             </form>
+            <p className='text-xl mb-2'>Sort By</p>
+            <div className='flex flex-col text-lg'>
+                <button
+                    className={
+                        'py-2 border rounded-md border-stone-300 text-left pl-8' +
+                        (sort === 'popular' || !sort ? ' border-l-4 !border-l-purple-600' : '')
+                    }
+                    onClick={() => setSort('popular')}>
+                    Popular
+                </button>
+                <button
+                    className={
+                        'py-2 border  border-t-0 rounded-md border-stone-300 text-left pl-8' +
+                        (sort === 'latest' ? ' border-l-4 !border-l-purple-600 ' : '')
+                    }
+                    onClick={() => setSort('latest')}>
+                    Latest
+                </button>
+            </div>
         </div>
     )
 }

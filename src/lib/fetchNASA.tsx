@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { loading } from '../Loader'
-import { ImageData, sort, time } from '../App'
+import { ImageData, time } from '../App'
 
 export const API_NASA_IMAGE = 'https://images-api.nasa.gov'
 

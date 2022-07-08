@@ -2,13 +2,13 @@ import { FC } from 'react'
 import { ImageData } from './App'
 
 const ImageCard: FC<props> = ({ image }) => (
-    <li className='rounded-md overflow-hidden bg-white hover:scale-[1.03] transition-transform duration-500 drop-shadow-lg'>
+    <li className='rounded-md overflow-hidden bg-white drop-shadow-lg'>
         <img src={image.url} className='w-full max-h-screen' alt={image.title} loading='lazy' />
-        <div className='p-4'>
+        <div className='p-4 border border-stone-300 overflow-hidden'>
             <h2 className='font-bold text-lg my-2'>{image.title}</h2>
             <p className='mb-1'>{image.date.toLocaleDateString('en-CA')}</p>
             <p className='max-h-[4rem] overflow-hidden text-sm'>{image.description}</p>
-            <div className='flex justify-between mx-4 my-2'>
+            <div className='flex justify-between mx-4 my-2 '>
                 <button
                     className='text-red-500'
                     onClick={e => {

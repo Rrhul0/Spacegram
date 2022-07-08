@@ -2,10 +2,10 @@ import { FC } from 'react'
 
 const Header: FC = () => {
     return (
-        <header className='bg-stone-200 p-4 flex justify-between'>
+        <header className='py-4 px-56 flex justify-between sticky top-0 z-10 border-b border-stone-400 bg-white'>
             <div>
                 <h1 className='font-bold text-3xl'>Spacegram</h1>
-                <p className='text-stone-600 text-lg'>Brought to you by NASA's image API</p>
+                {/* <p className='text-stone-600 text-lg'>Brought to you by NASA's image API</p> */}
             </div>
             <a
                 target='_blank'
