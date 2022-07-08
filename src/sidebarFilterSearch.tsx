@@ -22,7 +22,7 @@ const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery, setTime, sort, s
             start: new Date(startTime).getFullYear(),
             end: new Date(endTime).getFullYear(),
         })
-        setSort('popular')
+        setSort('latest')
     }
 
     return (
@@ -47,7 +47,9 @@ const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery, setTime, sort, s
             </form>
             <p>Order By</p>
             <div>
-                <button className={sort === 'popular' ? 'bg-stone-500' : ''} onClick={() => setSort('popular')}>
+                <button
+                    className={sort === 'popular' || !sort ? 'bg-stone-500' : ''}
+                    onClick={() => setSort('popular')}>
                     Popular
                 </button>
                 <button className={sort === 'latest' ? 'bg-stone-500' : ''} onClick={() => setSort('latest')}>

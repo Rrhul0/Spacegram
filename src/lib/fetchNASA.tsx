@@ -12,14 +12,13 @@ export function useFetchNASA(query: string, time: time | null): [ImageData[], lo
         setIsLoading(true)
 
         const controller = new AbortController()
+        if (!query) query = 'earth moon space'
 
         let endpoint = API_NASA_IMAGE + `/search?q=${query}&media_type=image`
         const year_start = time?.start
         const year_end = time?.end
         if (year_start) endpoint += '&year_start=' + year_start
         if (year_end) endpoint += '&year_end=' + year_end
-
-        if (query === '') endpoint = API_NASA_IMAGE + '/asset/?orderby=popular'
 
         fetch(endpoint, { signal: controller.signal })
             .then((res: Response): any => {

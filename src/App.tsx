@@ -10,12 +10,13 @@ const App: FC = () => {
     const [time, setTime] = useState<null | time>(null)
     const [sort, setSort] = useState<sort>(null)
     const [images, loading] = useFetchNASA(query, time)
+    const [finalImages, setFinalImages] = useState(images)
 
-    // useEffect(() => {
-    //     if (sort === 'latest') {
-    //         images.sort((a, b) => b.date.getTime() - a.date.getTime())
-    //     }
-    // }, [sort])
+    useEffect(() => {
+        if (sort === 'latest') {
+            setFinalImages(images.slice().sort((a, b) => b.date.getTime() - a.date.getTime()))
+        } else setFinalImages(images)
+    }, [sort, images])
 
     return (
         <>
@@ -24,7 +25,7 @@ const App: FC = () => {
                 <section className='flex-1'>
                     <Loader loading={loading}>
                         <ul className='flex flex-col gap-4'>
-                            {images.map(image => (
+                            {finalImages.map(image => (
                                 <ImageCard key={image.id} image={image} />
                             ))}
                         </ul>
