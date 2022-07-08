@@ -32,7 +32,13 @@ const App: FC = () => {
                     </Loader>
                 </section>
                 <section className='w-[30%]'>
-                    <SearchFilterSidebar setQuery={setQuery} setTime={setTime} sort={sort} setSort={setSort} />
+                    <SearchFilterSidebar
+                        query={query}
+                        setQuery={setQuery}
+                        setTime={setTime}
+                        sort={sort}
+                        setSort={setSort}
+                    />
                 </section>
             </main>
         </>

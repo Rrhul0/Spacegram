@@ -1,10 +1,14 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { sort, time } from './App'
 
-const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery, setTime, sort, setSort }) => {
+const SearchFilterSidebar: FC<searchFilterProps> = ({ query, setQuery, setTime, sort, setSort }) => {
     const [input, setInput] = useState('')
     const [startTime, setStartTime] = useState('')
     const [endTime, setEndTime] = useState('')
+
+    useEffect(() => {
+        setInput(query)
+    }, [query])
 
     function onChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
         setInput(e.target.value)
@@ -99,6 +103,7 @@ const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery, setTime, sort, s
 export default SearchFilterSidebar
 
 interface searchFilterProps {
+    query: string
     setQuery: React.Dispatch<string>
     setTime: React.Dispatch<time>
     sort: sort
