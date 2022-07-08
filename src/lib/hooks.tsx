@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from 'react'
+import { RefObject, useEffect, useState } from 'react'
 import { loading } from '../Loader'
 import { ImageData, time } from '../App'
 
@@ -55,9 +55,8 @@ export function useFetchNASA(query: string, time: time | null): [ImageData[], lo
     return [images, isLoading]
 }
 
-export function useLike(image: ImageData, likeSvgRef: RefObject<SVGSVGElement>): [VoidFunction] {
+export function useLike(image: ImageData, likeSvgRef: RefObject<SVGSVGElement>): VoidFunction {
     const [liked, setLiked] = useState(false)
-    // const likeSvgRef = useRef<SVGSVGElement>(likeRef)
 
     useEffect(() => {
         if (!likeSvgRef.current) return
@@ -80,5 +79,5 @@ export function useLike(image: ImageData, likeSvgRef: RefObject<SVGSVGElement>):
             localStorage.removeItem(image.id)
         }
     }
-    return [onClickLike]
+    return onClickLike
 }

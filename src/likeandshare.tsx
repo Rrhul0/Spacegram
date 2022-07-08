@@ -1,9 +1,10 @@
 import { FC, useRef } from 'react'
 import { imageCardProps } from './ImageCard'
 import { useLike } from './lib/hooks'
+
 const LikeAndShare: FC<imageCardProps> = ({ image }) => {
     const likeSvgRef = useRef<SVGSVGElement>(null)
-    const [onClickLike] = useLike(image, likeSvgRef)
+    const onClickLike = useLike(image, likeSvgRef)
     return (
         <div className='flex justify-between my-2 items-center'>
             <button className='text-red-500' onClick={onClickLike} data-message='This is from the like button'>
