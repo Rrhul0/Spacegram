@@ -1,7 +1,10 @@
 import React, { FC, useState } from 'react'
+import { sort, time } from './App'
 
-const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery }) => {
+const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery, setTime, sort, setSort }) => {
     const [input, setInput] = useState('')
+    const [startTime, setStartTime] = useState('')
+    const [endTime, setEndTime] = useState('')
 
     function onChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
         setInput(e.target.value)
@@ -10,17 +13,23 @@ const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery }) => {
     function onQuerySubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         setQuery(input)
+        setSort('popular')
     }
 
     function onDateSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        setTime({
+            start: new Date(startTime).getFullYear(),
+            end: new Date(endTime).getFullYear(),
+        })
+        setSort('popular')
     }
 
     return (
         <div>
-            <form onSubmit={onQuerySubmit}>
-                <input type='text' value={input} onChange={onChangeInput} />
-                <button>
+            <form className='relative' onSubmit={onQuerySubmit}>
+                <input className='p-2 rounded-md w-full' type='text' value={input} onChange={onChangeInput} />
+                <button className='absolute top-0 right-0 bg-stone-200 hover:bg-stone-300 py-1 px-3 m-1 rounded-lg'>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         className='h-6 w-6'
@@ -38,18 +47,35 @@ const SearchFilterSidebar: FC<searchFilterProps> = ({ setQuery }) => {
             </form>
             <p>Order By</p>
             <div>
-                <button>Popular</button>
-                <button>Latest</button>
+                <button className={sort === 'popular' ? 'bg-stone-500' : ''} onClick={() => setSort('popular')}>
+                    Popular
+                </button>
+                <button className={sort === 'latest' ? 'bg-stone-500' : ''} onClick={() => setSort('latest')}>
+                    Latest
+                </button>
             </div>
             <form onSubmit={onDateSubmit}>
                 <p>Filter by Date</p>
                 <label>
                     Start Date
-                    <input type={'date'} name='start_date' />
+                    <input
+                        type={'date'}
+                        name='start_date'
+                        value={startTime}
+                        onChange={e => setStartTime(e.target.value)}
+                        max='2022-12-31'
+                    />
                 </label>
                 <label>
                     End Date
-                    <input type={'date'} name='end_date' />
+                    <input
+                        type={'date'}
+                        name='end_date'
+                        value={endTime}
+                        onChange={e => setEndTime(e.target.value)}
+                        min={startTime}
+                        max='2022-12-31'
+                    />
                 </label>
                 <button>filter</button>
             </form>
@@ -61,4 +87,7 @@ export default SearchFilterSidebar
 
 interface searchFilterProps {
     setQuery: React.Dispatch<string>
+    setTime: React.Dispatch<time>
+    sort: sort
+    setSort: React.Dispatch<sort>
 }

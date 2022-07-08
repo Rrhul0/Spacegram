@@ -1,13 +1,21 @@
 import { FC, useEffect, useState } from 'react'
 import Header from './Header'
-import Loader, { loading } from './Loader'
+import Loader from './Loader'
 import ImageCard from './ImageCard'
 import SearchFilterSidebar from './sidebarFilterSearch'
 import { useFetchNASA } from './lib/fetchNASA'
 
 const App: FC = () => {
-    const [query, setQuery] = useState<string>('')
-    const [images, loading] = useFetchNASA(query)
+    const [query, setQuery] = useState('')
+    const [time, setTime] = useState<null | time>(null)
+    const [sort, setSort] = useState<sort>(null)
+    const [images, loading] = useFetchNASA(query, time)
+
+    // useEffect(() => {
+    //     if (sort === 'latest') {
+    //         images.sort((a, b) => b.date.getTime() - a.date.getTime())
+    //     }
+    // }, [sort])
 
     return (
         <>
@@ -22,8 +30,8 @@ const App: FC = () => {
                         </ul>
                     </Loader>
                 </section>
-                <section className='basis-1/4'>
-                    <SearchFilterSidebar setQuery={setQuery} />
+                <section className='basis-1/4 px-10 pt-5'>
+                    <SearchFilterSidebar setQuery={setQuery} setTime={setTime} sort={sort} setSort={setSort} />
                 </section>
             </main>
         </>
@@ -37,5 +45,10 @@ export interface ImageData {
     title: string
     description: string
 }
+export interface time {
+    start: number
+    end: number
+}
+export type sort = null | 'latest' | 'popular'
 
 export default App

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { loading } from '../Loader'
-import { ImageData } from '../App'
+import { ImageData, sort, time } from '../App'
 
 export const API_NASA_IMAGE = 'https://images-api.nasa.gov'
 
-export function useFetchNASA(query: string): [ImageData[], loading] {
+export function useFetchNASA(query: string, time: time | null): [ImageData[], loading] {
     const [images, setImages] = useState<ImageData[]>([])
     const [isLoading, setIsLoading] = useState<loading>(false)
 
@@ -12,8 +12,15 @@ export function useFetchNASA(query: string): [ImageData[], loading] {
         setIsLoading(true)
 
         const controller = new AbortController()
+
         let endpoint = API_NASA_IMAGE + `/search?q=${query}&media_type=image`
+        const year_start = time?.start
+        const year_end = time?.end
+        if (year_start) endpoint += '&year_start=' + year_start
+        if (year_end) endpoint += '&year_end=' + year_end
+
         if (query === '') endpoint = API_NASA_IMAGE + '/asset/?orderby=popular'
+
         fetch(endpoint, { signal: controller.signal })
             .then((res: Response): any => {
                 if (res.status === 200) {
@@ -22,7 +29,7 @@ export function useFetchNASA(query: string): [ImageData[], loading] {
             })
             .then((json): void => {
                 if (json?.collection?.items) {
-                    const imagesData = json.collection.items.map((item: any): ImageData => {
+                    const imagesData: ImageData[] = json.collection.items.map((item: any): ImageData => {
                         const image: ImageData = {
                             id: item?.data[0]?.nasa_id,
                             title: item?.data[0]?.title,
@@ -32,7 +39,6 @@ export function useFetchNASA(query: string): [ImageData[], loading] {
                         }
                         return image
                     })
-                    console.log(imagesData)
                     setImages(imagesData)
                 }
                 setIsLoading(false)
@@ -45,6 +51,7 @@ export function useFetchNASA(query: string): [ImageData[], loading] {
         return (): void => {
             controller.abort()
         }
-    }, [query])
+    }, [query, time])
+
     return [images, isLoading]
 }
