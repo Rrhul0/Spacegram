@@ -1,11 +1,13 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 
 const Header: FC = () => {
     return (
         <header className='py-4 px-56 flex justify-between sticky top-0 z-10 border-b border-stone-400 bg-white'>
             <div>
-                <h1 className='font-bold text-3xl'>Spacegram</h1>
-                {/* <p className='text-stone-600 text-lg'>Brought to you by NASA's image API</p> */}
+                <h1 className='font-bold text-3xl'>
+                    <Link to='/'>Spacegram</Link>
+                </h1>
             </div>
             <a
                 target='_blank'

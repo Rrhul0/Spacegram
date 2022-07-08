@@ -25,7 +25,7 @@ const FullScreen: FC = () => {
                     <h1 className='mt-4 font-bold text-lg mx-2'>{state.title}</h1>
                 </div>
                 <div className='flex-1 pt-2 pr-2'>
-                    <p className='leading-7'>{state.description}</p>
+                    <p className='leading-7 h-[calc(100%-5rem)]'>{state.description}</p>
                     <p className='mt-4 leading-8 font-bold'>{state.date.toLocaleDateString('en-CA')}</p>
                     <LikeAndShare image={state} />
                 </div>
