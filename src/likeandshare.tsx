@@ -5,7 +5,7 @@ const LikeAndShare: FC<imageCardProps> = ({ image }) => {
     const likeSvgRef = useRef<SVGSVGElement>(null)
     const [onClickLike] = useLike(image, likeSvgRef)
     return (
-        <div className='flex justify-between my-2 '>
+        <div className='flex justify-between my-2 items-center'>
             <button className='text-red-500' onClick={onClickLike} data-message='This is from the like button'>
                 <svg
                     ref={likeSvgRef}
@@ -24,15 +24,22 @@ const LikeAndShare: FC<imageCardProps> = ({ image }) => {
             </button>
             <button
                 data-message='This is from the share button'
-                className='group relative'
+                className='group relative flex gap-1 '
                 onClick={e => {
                     const link = e.currentTarget.querySelector('input')?.value
                     navigator.clipboard.writeText(link || '')
+                    const p = e.currentTarget.querySelector('p')
+                    if (p) {
+                        p.textContent = 'Copied'
+                        setTimeout(() => {
+                            p.textContent = 'Copy'
+                        }, 2000)
+                    }
                 }}>
                 <input type='hidden' value={image.url} />
                 <svg
                     xmlns='http://www.w3.org/2000/svg'
-                    className='h-8 w-8 hover:scale-125 active:scale-[2] transition-transform duration-200'
+                    className='h-6 w-6 group-hover:hidden group-active:hidden'
                     fill='none'
                     viewBox='0 0 24 24'
                     stroke='currentColor'
@@ -43,9 +50,7 @@ const LikeAndShare: FC<imageCardProps> = ({ image }) => {
                         d='M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z'
                     />
                 </svg>
-                <p className='hidden absolute -top-6 -left-4 w-max group-hover:block text-xs bg-stone-300 bg-opacity-50 rounded-md px-1 py-0.5'>
-                    Copy Link!
-                </p>
+                <p className='hidden group-hover:block'>Copy</p>
             </button>
         </div>
     )
