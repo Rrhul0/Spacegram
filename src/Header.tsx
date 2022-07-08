@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const Header: FC = () => {
     return (
-        <header className='py-4 px-56 flex justify-between sticky top-0 z-10 border-b border-stone-400 bg-white'>
+        <header className='py-4 px-4 md:px-56 flex justify-between sticky top-0 z-10 border-b border-stone-400 bg-white'>
             <div>
                 <h1 className='font-bold text-3xl'>
                     <Link to='/'>Spacegram</Link>
