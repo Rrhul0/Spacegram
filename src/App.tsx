@@ -23,8 +23,8 @@ const App: FC = () => {
         <>
             <Header />
             <main className=' flex gap-4 pt-6 flex-col-reverse md:flex-row md:gap-8 w-screen md:px-56 '>
-                <section className='w-[90%] self-center md:w-[70%] flex flex-col gap-8'>
-                    {/* <SearchItems setQuery={setQuery} /> */}
+                <section className='w-[90%] self-center md:w-[67%] flex flex-col gap-8'>
+                    <SearchItems setQuery={setQuery} />
                     <Loader loading={loading}>
                         {finalImages.map(image => (
                             <ImageCard key={image.id} image={image} />

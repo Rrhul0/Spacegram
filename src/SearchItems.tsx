@@ -18,7 +18,7 @@ const SearchItems: FC<props> = ({ setQuery }) => {
     }
 
     return (
-        <ul className='flex gap-3 border border-stone-200 p-3 rounded-md flex-nowrap overflow-x-scroll justify-start h-16 scw'>
+        <ul className='flex gap-3 border border-stone-200 p-3 rounded-md flex-nowrap overflow-x-scroll justify-auto w-full'>
             <li className='py-1.5 px-2 flex-shrink-0'>Quick Search: </li>
             {quickSearchQueries.map(query => (
                 <li onClick={onClickItem} className='py-1.5 px-4 rounded-full bg-stone-200 flex-shrink-0'>
