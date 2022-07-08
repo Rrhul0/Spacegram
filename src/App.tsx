@@ -4,6 +4,7 @@ import Loader from './Loader'
 import ImageCard from './ImageCard'
 import SearchFilterSidebar from './sidebarFilterSearch'
 import { useFetchNASA } from './lib/fetchNASA'
+import SearchItems from './SearchItems'
 
 const App: FC = () => {
     const [query, setQuery] = useState('')
@@ -22,16 +23,15 @@ const App: FC = () => {
         <>
             <Header />
             <main className=' flex gap-4 pt-6 flex-col md:flex-row md:gap-8 w-screen px-56 '>
-                <section className='flex-1'>
+                <section className='w-[70%] flex flex-col gap-8'>
+                    <SearchItems setQuery={setQuery} />
                     <Loader loading={loading}>
-                        <ul className='flex flex-col gap-8'>
-                            {finalImages.map(image => (
-                                <ImageCard key={image.id} image={image} />
-                            ))}
-                        </ul>
+                        {finalImages.map(image => (
+                            <ImageCard key={image.id} image={image} />
+                        ))}
                     </Loader>
                 </section>
-                <section className='basis-[30%]'>
+                <section className='w-[30%]'>
                     <SearchFilterSidebar setQuery={setQuery} setTime={setTime} sort={sort} setSort={setSort} />
                 </section>
             </main>

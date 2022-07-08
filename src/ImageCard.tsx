@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { ImageData } from './App'
 
 const ImageCard: FC<props> = ({ image }) => (
-    <li className='rounded-md overflow-hidden bg-white drop-shadow-lg'>
+    <article className='rounded-md overflow-hidden bg-white drop-shadow-lg'>
         <img src={image.url} className='w-full max-h-screen' alt={image.title} loading='lazy' />
         <div className='p-4 border border-stone-300 overflow-hidden'>
             <h2 className='font-bold text-lg my-2'>{image.title}</h2>
@@ -60,7 +60,7 @@ const ImageCard: FC<props> = ({ image }) => (
                 </button>
             </div>
         </div>
-    </li>
+    </article>
 )
 
 interface props {

@@ -6,7 +6,7 @@ const Loader: FC<loaderProps> = ({ loading, children }) => {
         if (loading === 'error') return <h2>Something went wrong</h2>
         else
             return (
-                <main className='flex items-center justify-center h-[calc(100vh-6rem)] bg-stone-200'>
+                <main className='flex items-center justify-center h-[calc(100vh-2rem)] rounded-md bg-stone-100'>
                     <div className=' animate-spin aspect-square h-24 border-8 border-t-stone-700 rounded-full mb-12'></div>
                 </main>
             )
